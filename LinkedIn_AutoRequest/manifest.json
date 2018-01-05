@@ -1,0 +1,22 @@
+{
+  "manifest_version": 2,
+  "name": "LinkedIn AutoRequest",
+  "version": "1.0",
+  "description": "This extension send auto requests to linked in contacts.",
+  "browser_action": {
+    "default_icon": "RP_icon.png",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": ["jquery-3.2.1.min.js","content.js"]
+    }
+  ],
+  "permissions": [
+    "activeTab",
+	 "storage"
+  ]
+}

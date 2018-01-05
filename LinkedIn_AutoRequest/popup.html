@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Extension Pop-Up</title>
+    <script src="p5.js" type="text/javascript"></script>
+	<script src="jquery-3.2.1.min.js" type="text/javascript"></script>
+    <script src="popup.js" type="text/javascript"></script>
+	<style>
+.rpMainContent {
+    background-color: #f5f5f5;
+    width: 300px;
+    height: 200px;
+}
+.rptext   {color: white;    font-size: 0.8rem;}
+.rpdiv {padding:10px; position:absolute; top: 60px; width:290px;}
+
+
+.rpBtn {    background-color: #0084bf;
+    border: 0;
+    top: 160px;
+    border-radius: 2px;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1.0rem;
+    font-weight: 600;
+    font-family: inherit;
+    height: 40px;
+    width: 100%;
+    line-height: 40px;
+    overflow: hidden;
+    outline-width: 2px;
+    padding: 0 24px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    transition-duration: 167ms;
+    transition-property: background-color,box-shadow,color;
+    transition-timing-function: cubic-bezier(0,0,.2,1);
+    vertical-align: middle;
+    z-index: 0;
+}
+
+.rpHeader {
+    background: #283e4a;
+    width: 300px;
+    height: 30px;
+    padding: 10px;
+    margin-left: 0px;
+    top: 0px;
+    left: 0px;
+    position: fixed;
+    text-align: center;}
+.rpSpan {
+	color: #0084bf;    
+	font-size: 17px;
+}
+.rpDDL{
+	color: #0084bf;;
+	font-size: 17px;
+  border-radius: 5px;
+}
+.rpSettingIcon{
+float:right;
+}
+
+.rpDiv2{
+	top:53px!important;
+	position:absolute;
+}
+
+textarea {
+    resize: none;
+}
+
+.rpTr{
+	padding-top:10px;
+}
+
+input[type=checkbox].css-checkbox:checked + label.css-label {
+	background-position: 0 -15px;
+}
+
+.lite-blue-check{background-image:url('../lite-blue-check.png');}
+
+label {margin-right:20px;}
+
+input[type=checkbox].css-checkbox + label.css-label {
+	padding-left:20px;
+	height:15px; 
+	display:inline-block;
+	line-height:15px;
+	background-repeat:no-repeat;
+	background-position: 0 0;
+	font-size:15px;
+	vertical-align:middle;
+	cursor:pointer;
+}
+
+input[type=checkbox].css-checkbox {
+	  position: absolute; 
+    overflow: hidden; 
+    clip: rect(0 0 0 0); 
+    height:1px; 
+    width:1px; 
+    margin:-1px; 
+    padding:0;
+    border:0;
+}
+
+.rpSpanRelative{
+    position: absolute;
+    right: 18px;
+    bottom: 8px;
+    color: #0084bf;
+	font-weight: bold;
+	background:#f5f5f5;
+}
+</style>
+  </head>
+  <body class="rpMainContent">
+	<div class="rpHeader">
+  <h1 class="rptext">LinkedIn Auto Request with note</h1>
+  </div>
+  <div id="rpMainDiv" >
+  
+	<div class="rpdiv">
+    <span class="rpSpan" >Note Type</span>
+      <select class="rpDDL" id="rpNoteTypeDropdown">
+        <option selected disabled hidden value=''></option>
+        <option value="NoteType1" selected>NoteType_1</option>
+        <option value="NoteType2">NoteType_2</option>
+        <option value="NoteType3">NoteType_3</option>
+        <option value="NoteType4">NoteType_4</option>
+      </select>
+	  <div  class="rpSettingIcon" >
+	<img id="rpSettingImg" alt="Settings" src="nut-icon.png">
+	</div>
+	<div class="rpTr">	<input type="checkbox" class="css-checkbox" id="rpConfirmNoteChk">
+						<label for="rpConfirmNoteChk" name="checkbox2_lbl" class="css-label lite-blue-check">Confirm Note Content</label>
+	</div>
+	</div>
+	
+	<div><input type="button" class="rpBtn" id="rpSendBtn" value="Send Auto Request"/></div>
+	</div>
+  <div id="rpSettingsDiv" style="display:none" >
+  <div class="rpDiv2" ><span id="textarea_feedback" class="rpSpanRelative"></span><textarea rows="7" id="rpNoteContent" cols="39" onkeyup="countChar(this)">
+Enter your Note here.
+</textarea></div>
+
+	<div><input type="button" class="rpBtn" id="rpSaveSettingBtn" value="Save Note"/></div>
+  </div>
+  
+  </body>
+</html>
