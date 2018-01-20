@@ -10,6 +10,19 @@ function setup() {
   $(document).ready(function(){
 	var text_max = 280;
     $('#textarea_feedback').html(text_max);
+	$("input:radio[name=rpRequestOptions]").click(function(){
+		var selectedRequestOption = $("input[name='rpRequestOptions']:checked").val();
+		if(selectedRequestOption=="search")
+		{
+			$("#rpConfirmNoteDiv").hide();
+			$("#rpSearchRequestCountDiv").show();
+		}
+		else
+		{
+			$("#rpSearchRequestCountDiv").hide();
+			$("#rpConfirmNoteDiv").show();
+		}
+	})
 	$('#rpNoteContent').keyup(function() {
         var text_length = $('#rpNoteContent').val().length;
         var text_remaining = text_max - text_length;
@@ -104,14 +117,28 @@ function setup() {
     });
 
   function sendMessage(noteContent) {
-	var confirmNote = false;
-  if ($('#rpConfirmNoteChk').is(':checked')) {
-	confirmNote=true;
-  }
+		var selectedRequestOption = $("input[name='rpRequestOptions']:checked").val();
+		var confirmNote = false;		
+		var requestCount = 0;
+		if(selectedRequestOption=="search")
+		{
+			requestCount = $("#rpSearchRequestCountTxt").val();
+		}
+		else
+		{
+			  if ($('#rpConfirmNoteChk').is(':checked')) {
+					confirmNote=true;
+			}
+		}	
+	  
+
+
     var msg = {
       from: 'popup',
       noteContent: noteContent,
-	  confirmNote:confirmNote
+	  confirmNote:confirmNote,
+	  requestCount:requestCount,
+	  requestOption:selectedRequestOption
     }
     var params = {
       active: true,

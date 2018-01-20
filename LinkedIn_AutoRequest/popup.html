@@ -14,7 +14,7 @@
     height: 200px;
 }
 .rptext   {color: white;    font-size: 0.8rem;}
-.rpdiv {padding:10px; position:absolute; top: 60px; width:290px;}
+.rpdiv {padding:10px; position:absolute; top: 40px; width:290px;}
 
 
 .rpBtn {    background-color: #0084bf;
@@ -58,10 +58,21 @@
 	color: #0084bf;    
 	font-size: 17px;
 }
+.rpSpanSmall {
+	color: #0084bf;    
+	font-size: 13px;
+}
 .rpDDL{
 	color: #0084bf;;
 	font-size: 17px;
   border-radius: 5px;
+}
+
+.rpTxt{
+	color: #0084bf;;
+	font-size: 17px;
+  border-radius: 5px;
+  width:20%
 }
 .rpSettingIcon{
 float:right;
@@ -126,8 +137,15 @@ input[type=checkbox].css-checkbox {
   <h1 class="rptext">LinkedIn Auto Request with note</h1>
   </div>
   <div id="rpMainDiv" >
-  
+
 	<div class="rpdiv">
+	  <span id="rpRequestOptions" class="rpSpanSmall">
+	  <table width="100%"><tr><td>
+	  <input type="radio" name="rpRequestOptions" checked value="individual"> Individual Request</td>
+	  <td><input type="radio" name="rpRequestOptions" value="search"> Search Request</td></tr></table>
+    
+	<hr>
+  </span>
     <span class="rpSpan" >Note Type</span>
       <select class="rpDDL" id="rpNoteTypeDropdown">
         <option selected disabled hidden value=''></option>
@@ -139,8 +157,13 @@ input[type=checkbox].css-checkbox {
 	  <div  class="rpSettingIcon" >
 	<img id="rpSettingImg" alt="Settings" src="nut-icon.png">
 	</div>
-	<div class="rpTr">	<input type="checkbox" class="css-checkbox" id="rpConfirmNoteChk">
+	<div id="rpConfirmNoteDiv" class="rpTr">	<input type="checkbox" class="css-checkbox" id="rpConfirmNoteChk">
 						<label for="rpConfirmNoteChk" name="checkbox2_lbl" class="css-label lite-blue-check">Confirm Note Content</label>
+	</div>
+	<div id="rpSearchRequestCountDiv" class="rpTr" style="display:none">
+	<label for="rpSearchRequestCountTxt" name="SearchRequestCountTxt_lbl" class="css-label rpSpan">Request Count</label>
+		<input type="text" id="rpSearchRequestCountTxt" class="rpTxt" value="50">
+		
 	</div>
 	</div>
 	
