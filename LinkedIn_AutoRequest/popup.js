@@ -12,6 +12,7 @@ function setup() {
     $('#textarea_feedback').html(text_max);
 	$("input:radio[name=rpRequestOptions]").click(function(){
 		var selectedRequestOption = $("input[name='rpRequestOptions']:checked").val();
+		resetSendRequest();
 		if(selectedRequestOption=="search")
 		{
 			$("#rpConfirmNoteDiv").hide();
@@ -31,6 +32,13 @@ function setup() {
         } 
         $('#textarea_feedback').html(text_remaining);
 	});
+	
+	function handleMessage(request, sender, sendResponse) {
+		$("#rpRequestCountDiv").html(request.requestCount);
+		$("#rpRequestCountDiv").addClass("rpSpan");
+	}
+
+	chrome.runtime.onMessage.addListener(handleMessage);
 });
 
   $("#rpSettingImg").click(function () {
@@ -108,6 +116,7 @@ function setup() {
 		}
 
 		if(noteContent && noteContent.length > 25){
+			setSendRequest();
 			sendMessage(noteContent);
 		}
 		else{
@@ -116,10 +125,28 @@ function setup() {
         
     });
 
+	
+	function resetSendRequest(){
+		$("#rpSendBtn").removeClass("rpBtnDisabled");
+		$("#rpSendBtn").removeAttr("disabled");
+		$("#rpRequestCountDiv").val("0");
+		$("#rpRequestCountDiv").hide();
+	}
+	
+	function setSendRequest(){
+		$("#rpRequestCountDiv").show();
+		 $("#rpSendBtn").addClass("rpBtnDisabled");
+		 $("#rpSendBtn").attr("disabled", "disabled");
+	}
+	
   function sendMessage(noteContent) {
 		var selectedRequestOption = $("input[name='rpRequestOptions']:checked").val();
 		var confirmNote = false;		
+		var confirmLog = false;
 		var requestCount = 0;
+		if ($('#rpConfirmLogChk').is(':checked')) {
+					confirmLog=true;
+		}
 		if(selectedRequestOption=="search")
 		{
 			requestCount = $("#rpSearchRequestCountTxt").val();
@@ -138,7 +165,8 @@ function setup() {
       noteContent: noteContent,
 	  confirmNote:confirmNote,
 	  requestCount:requestCount,
-	  requestOption:selectedRequestOption
+	  requestOption:selectedRequestOption,
+	  confirmLog:confirmLog
     }
     var params = {
       active: true,

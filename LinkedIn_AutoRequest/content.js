@@ -1,16 +1,48 @@
 // Listen for messages
 chrome.runtime.onMessage.addListener(receiver);
 
+function notifyBackgroundPage(currentRequestCount) {
+	if(currentRequestCount)
+	{
+	  var sending = chrome.runtime.sendMessage({
+		requestCount: currentRequestCount
+	  });
+	}
+}
+
+function WriteLog(request)
+{
+	if(request.confirmLog)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
 // A message is received
 function receiver(request, sender, sendResponse) {
 	if(request.requestOption == "search"){
-		console.log("!! RP Search Auto Request Started !!");
+		if(WriteLog(request))
+		{
+			console.log("!! RP Search Auto Request Started !!");
+		}
 		sendSearchRequest(request)
+		
 	}
 	else{
-		console.log("!! RP Individual Request Started !!");
+		if(WriteLog(request))
+		{
+			console.log("!! RP Individual Request Started !!");
+		}
 		sendIndividualRequest(request)
 	}
+}
+
+function getDateTime() {
+	var currentdate = new Date(); 
+	return (currentdate.getMonth() + 1) + "/" + currentdate.getDate() + " @ " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds() + ":" + currentdate.getMilliseconds(); 
 }
 
 function sendSearchRequest(request){
@@ -20,7 +52,7 @@ function sendSearchRequest(request){
 	var nextCount = 2;
 	var requestCount = 1;
 	var currentPage = 1;
-	function LoopForever() {
+	function LoopForRequestCount() {
 	if (requestCount < requestTotal && currentPage != nextCount) {
 		currentPage = nextCount;
 		var time = 500;
@@ -36,7 +68,13 @@ function sendSearchRequest(request){
 				$(".send-invite__actions .button-secondary-large").click().delay(1000); 
 				$(".send-invite__custom-message").val(recruiterNote.replace('_rpConnectionName_',searchName)); 
 				$(".send-invite__actions .button-primary-large").click().delay(1000);
-				console.log('[' + getDateTime() + '] ' + ' -- Request Sent '+ requestCount + ': ' + searchName+ ' - '+searchOccupation); requestCount += 1;
+				if(WriteLog(request))
+				{
+					console.log('[' + getDateTime() + '] ' + ' -- Request Sent '+ requestCount + ': ' + searchName+ ' - '+searchOccupation); 
+					console.log(recruiterNote.replace('_rpConnectionName_',searchName));
+				}
+				notifyBackgroundPage(requestCount);
+				requestCount += 1;
 				time += 1000;
 			}
 		}
@@ -44,17 +82,27 @@ function sendSearchRequest(request){
 		window.scrollTo(0,document.body.scrollHeight); }); 
 		time += 1000;
 		setTimeout( function(){ if($(".results-paginator.ember-view .next").length == 1) {
-		$(".results-paginator.ember-view .next").click().delay(1000); console.log('[' + getDateTime() + '] ' + ' ---------------------------------> Next Page No '+ nextCount); nextCount += 1;
+		$(".results-paginator.ember-view .next").click().delay(1000); 
+		if(WriteLog(request))
+		{
+			console.log('[' + getDateTime() + '] ' + ' ---------------------------------> Next Page No '+ nextCount); 
+		}
+		nextCount += 1;
 		}
 		}, time); time += 1000;
 	}
 	}; 
-	function getDateTime() {
-		var currentdate = new Date(); 
-		return (currentdate.getMonth() + 1) + "/" + currentdate.getDate() + " @ " + currentdate.getHours() + ":" + currentdate.getMinutes() + ":" + currentdate.getSeconds() + ":" + currentdate.getMilliseconds(); 
-	}
+
 	var interval = self.setInterval(function () {
-	LoopForever(); }, requestLap);
+			if(requestCount < requestTotal)
+			{
+				LoopForRequestCount(); 
+			}
+			else
+			{
+				clearInterval(interval);
+			}
+		}, requestLap);
 }
 
 function sendIndividualRequest(request){
@@ -65,7 +113,13 @@ function sendIndividualRequest(request){
 	$('.pv-s-profile-actions--connect').click().delay(2000);
 	$(".send-invite__actions .button-secondary-large").click().delay(2000);
 	$(".send-invite__custom-message").val(noteContent);
+	if(request.confirmLog)
+	{
+		console.log('[' + getDateTime() + '] ' + ' -- Request Sent : ' + connectionName); 
+		console.log(noteContent);
+	}
 	if(!request.confirmNote){
 	 $(".send-invite__actions .button-primary-large").click();
+	 notifyBackgroundPage("1");
 	}
 }

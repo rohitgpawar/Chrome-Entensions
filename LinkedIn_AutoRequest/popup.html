@@ -44,6 +44,13 @@
     z-index: 0;
 }
 
+.rpBtnDisabled {    background-color: transparent;
+    color: rgba(0,0,0,.6);
+	cursor: not-allowed;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,.6), inset 0 0 0 2px transparent, inset 0 0 0 3px transparent;
+}
+
+
 .rpHeader {
     background: #283e4a;
     width: 300px;
@@ -57,6 +64,7 @@
 .rpSpan {
 	color: #0084bf;    
 	font-size: 17px;
+	margin-right:5px
 }
 .rpSpanSmall {
 	color: #0084bf;    
@@ -69,11 +77,13 @@
 }
 
 .rpTxt{
-	color: #0084bf;;
+	color: #0084bf;
 	font-size: 17px;
   border-radius: 5px;
-  width:20%
+  width:20%;
+  text-align: center;
 }
+
 .rpSettingIcon{
 float:right;
 }
@@ -130,6 +140,15 @@ input[type=checkbox].css-checkbox {
 	font-weight: bold;
 	background:#f5f5f5;
 }
+
+.rpRequestCount{
+	width:30px; 
+	display:none; 
+	border-style: double; 
+	background-color: #fff;
+	text-align: center;
+	float:right;
+}
 </style>
   </head>
   <body class="rpMainContent">
@@ -157,14 +176,33 @@ input[type=checkbox].css-checkbox {
 	  <div  class="rpSettingIcon" >
 	<img id="rpSettingImg" alt="Settings" src="nut-icon.png">
 	</div>
+	<table style="width:100%">
+	<tr><td >
 	<div id="rpConfirmNoteDiv" class="rpTr">	<input type="checkbox" class="css-checkbox" id="rpConfirmNoteChk">
-						<label for="rpConfirmNoteChk" name="checkbox2_lbl" class="css-label lite-blue-check">Confirm Note Content</label>
+						<label for="rpConfirmNoteChk" name="checkbox2_lbl" class="css-label lite-blue-check">Confirm Content</label>
 	</div>
-	<div id="rpSearchRequestCountDiv" class="rpTr" style="display:none">
+		<div id="rpSearchRequestCountDiv" class="rpTr" style="display:none">
 	<label for="rpSearchRequestCountTxt" name="SearchRequestCountTxt_lbl" class="css-label rpSpan">Request Count</label>
 		<input type="text" id="rpSearchRequestCountTxt" class="rpTxt" value="50">
 		
 	</div>
+	</td>
+	<td >
+	<div id="rpConfirmLogDiv" class="rpTr">	
+	
+	<input type="checkbox" class="css-checkbox" id="rpConfirmLogChk">
+	<label for="rpConfirmLogChk" name="checkbox2_lbl" class="css-label lite-blue-check">Log</label>					
+	</div>
+	</td>
+	<td >
+		<div id="rpRequestCountDiv" class="rpTr rpSpan rpRequestCount" >
+		<label id="rpRequestCountDivLbl" name="rpRequestCountDiv_lbl" class="css-label rpSpan">0</label>
+		
+	</div>
+	</td>
+	</tr></table>
+	
+
 	</div>
 	
 	<div><input type="button" class="rpBtn" id="rpSendBtn" value="Send Auto Request"/></div>
