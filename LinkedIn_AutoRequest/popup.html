@@ -160,8 +160,10 @@ input[type=checkbox].css-checkbox {
 	<div class="rpdiv">
 	  <span id="rpRequestOptions" class="rpSpanSmall">
 	  <table width="100%"><tr><td>
-	  <input type="radio" name="rpRequestOptions" checked value="individual"> Individual Request</td>
-	  <td><input type="radio" name="rpRequestOptions" value="search"> Search Request</td></tr></table>
+	  <input type="radio" name="rpRequestOptions" checked value="individual"> Individual </td>
+	  <td><input type="radio" name="rpRequestOptions" value="search"> Search Request</td>
+	  <td><input type="radio" name="rpRequestOptions" value="message"> Message</td>
+	  </tr></table>
     
 	<hr>
   </span>
@@ -204,8 +206,8 @@ input[type=checkbox].css-checkbox {
 	
 
 	</div>
-	
-	<div><input type="button" class="rpBtn" id="rpSendBtn" value="Send Auto Request"/></div>
+	<div id="rpSendMessage"  style="display:none" ><table style="width:100%"><tr><td><input type="button" class="rpBtn" id="rpSendMsgBtn" value="Send Message"/></td><td><input type="button" class="rpBtn" id="rpNextMsgBtn" value="Next Message"/></td></tr></table></div>
+	<div id="rpSendRequest"><input type="button" class="rpBtn" id="rpSendBtn" value="Send Auto Request"/></div>
 	</div>
   <div id="rpSettingsDiv" style="display:none" >
   <div class="rpDiv2" ><span id="textarea_feedback" class="rpSpanRelative"></span><textarea rows="7" id="rpNoteContent" cols="39" onkeyup="countChar(this)">

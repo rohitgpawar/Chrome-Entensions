@@ -8,6 +8,9 @@ function setup() {
  var noteContent = '';
 
   $(document).ready(function(){
+	resetAllControls();
+	$("#rpConfirmNoteDiv").show();
+	$('#rpSendRequest').show();
 	var text_max = 280;
     $('#textarea_feedback').html(text_max);
 	$("input:radio[name=rpRequestOptions]").click(function(){
@@ -15,13 +18,21 @@ function setup() {
 		resetSendRequest();
 		if(selectedRequestOption=="search")
 		{
-			$("#rpConfirmNoteDiv").hide();
+			resetAllControls();
 			$("#rpSearchRequestCountDiv").show();
+			$('#rpSendRequest').show();
 		}
-		else
+		else if(selectedRequestOption=="individual")
 		{
-			$("#rpSearchRequestCountDiv").hide();
+			resetAllControls();
 			$("#rpConfirmNoteDiv").show();
+			$('#rpSendRequest').show();
+		}
+		else if(selectedRequestOption=="message")
+		{
+			resetAllControls();
+			$("#rpConfirmNoteDiv").show();
+			$('#rpSendMessage').show();
 		}
 	})
 	$('#rpNoteContent').keyup(function() {
@@ -41,6 +52,47 @@ function setup() {
 	chrome.runtime.onMessage.addListener(handleMessage);
 });
 
+	function resetAllControls(){
+			$("#rpConfirmNoteDiv").hide();
+			$("#rpSearchRequestCountDiv").hide();
+			$('#rpSendRequest').hide();
+			$('#rpSendMessage').hide();
+	}
+
+
+	
+	
+	function rpGetNoteContent(){
+		var noteType = $('#rpNoteTypeDropdown').val();
+		switch(noteType){
+		case "NoteType1":
+			if (noteType1Content !== undefined){
+				noteContent = noteHeader+noteType1Content;
+			}
+			break;
+		case "NoteType2":
+			if (noteType2Content !== undefined){
+				noteContent = noteHeader+noteType2Content;
+			}
+			break;
+		case "NoteType3":
+			if (noteType3Content !== undefined){
+				noteContent = noteHeader+noteType3Content;
+			}
+			break;
+		case "NoteType4":
+			if (noteType4Content !== undefined){
+				noteContent = noteHeader+noteType4Content;
+			}
+			break;
+		}
+	}
+	
+		function setSendMessage(){
+		
+	}
+
+	
   $("#rpSettingImg").click(function () {
 		$("#rpMainDiv").hide();
 		$("#rpSettingsDiv").show();
@@ -90,31 +142,7 @@ function setup() {
 	});
 
    $("#rpSendBtn").click(function () {
-        var end = this.value;
-		var noteType = $('#rpNoteTypeDropdown').val();
-		switch(noteType){
-		case "NoteType1":
-			if (noteType1Content !== undefined){
-				noteContent = noteHeader+noteType1Content;
-			}
-			break;
-		case "NoteType2":
-			if (noteType2Content !== undefined){
-				noteContent = noteHeader+noteType2Content;
-			}
-			break;
-		case "NoteType3":
-			if (noteType3Content !== undefined){
-				noteContent = noteHeader+noteType3Content;
-			}
-			break;
-		case "NoteType4":
-			if (noteType4Content !== undefined){
-				noteContent = noteHeader+noteType4Content;
-			}
-			break;
-		}
-
+		rpGetNoteContent();
 		if(noteContent && noteContent.length > 25){
 			setSendRequest();
 			sendMessage(noteContent);
@@ -124,7 +152,33 @@ function setup() {
 		}
         
     });
+	
+	$("#rpSendMsgBtn").click(function () {
+		rpGetNoteContent();
+		if(noteContent && noteContent.length > 25){
+			setSendMessage();
+			sendMessage(noteContent);
+		}
+		else{
+			alert("Note Content is Empty. \nPlease enter content by clicking on Settings icon");
+		}
+	});
 
+	$("#rpNextMsgBtn").click(function () {
+	selectedRequestOption = "nextMessage"
+	var msg = {
+      from: 'popup',
+      requestOption:selectedRequestOption
+    }
+    var params = {
+      active: true,
+      currentWindow: true    
+    }
+    chrome.tabs.query(params, gotTabs);
+    function gotTabs(tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, msg);//, messageBack);
+    }
+	});
 	
 	function resetSendRequest(){
 		$("#rpSendBtn").removeClass("rpBtnDisabled");
