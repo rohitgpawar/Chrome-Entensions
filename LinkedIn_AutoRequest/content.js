@@ -81,8 +81,8 @@ function sendSearchRequest(request){
 		, time); time += 1000;
 		window.scrollTo(0,document.body.scrollHeight); }); 
 		time += 1000;
-		setTimeout( function(){ if($(".results-paginator.ember-view .next").length == 1) {
-		$(".results-paginator.ember-view .next").click().delay(1000); 
+		setTimeout( function(){ if($(".artdeco-pagination .artdeco-pagination__button--next").length == 1) {
+		$(".artdeco-pagination .artdeco-pagination__button--next").click().delay(1000); 
 		if(WriteLog(request))
 		{
 			console.log('[' + getDateTime() + '] ' + ' ---------------------------------> Next Page No '+ nextCount); 
