@@ -106,7 +106,7 @@ function sendSearchRequest(request){
 }
 
 function sendIndividualRequest(request){
-	var connectionName = $(".pv-top-card-section__name").html().split(" ")[0];
+	var connectionName = $(".pv-top-card-section__name").html().trim().split(" ")[0];
 	$(".pv-s-profile-actions__overflow").find(":button").first().click().delay(1000);
 	noteContent = request.noteContent.replace('_rpConnectionName_',connectionName);
 	$(".pv-s-profile-actions__overflow-dropdown .pv-s-profile-actions--follow").click().delay(1000);
